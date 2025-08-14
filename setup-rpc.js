@@ -11,7 +11,8 @@ import { dirname, join } from 'path';
 
 import { initializeDatabase, executeDbQuery } from './utils/dbHelpers.js';
 import { getSupabaseClient } from './utils/supabaseClient.js';
-
+import { config as loadEnv } from 'dotenv';
+loadEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

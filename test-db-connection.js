@@ -9,6 +9,9 @@ const config = JSON.parse(readFileSync(join(__dirname, 'config.json'), 'utf8'));
 import { initializeDatabase, getDbSchema } from './utils/dbHelpers.js';
 import { initializeSupabaseForMCP, getSupabaseClient } from './utils/supabaseClient.js';
 
+import { config as loadEnv } from 'dotenv';
+loadEnv();
+
 console.log('🔍 Testing Supabase connection...\n');
 
 // Check environment variables
@@ -44,17 +47,17 @@ try {
   // Test schema retrieval
   console.log('📊 Retrieving database schema...');
   const schema = await getDbSchema();
-  
+
   console.log('\n📋 Database Schema:');
   console.log('==================');
-  
+
   for (const [tableName, tableInfo] of Object.entries(schema)) {
     console.log(`\n🗂️  Table: ${tableName}`);
     if (tableInfo.description) {
       console.log(`   Description: ${tableInfo.description}`);
     }
     console.log(`   Columns: ${tableInfo.columns ? tableInfo.columns.length : 'Unknown'}`);
-    
+
     if (tableInfo.columns) {
       tableInfo.columns.forEach(col => {
         const nullable = col.nullable ? '(nullable)' : '(required)';
@@ -66,36 +69,36 @@ try {
 
   // Test a simple query
   console.log('\n🧪 Testing sample queries...');
-  
+
   try {
     const { executeDbQuery } = await import('./utils/dbHelpers.js');
-    
+
     // Test users table
     const usersCount = await executeDbQuery('SELECT COUNT(*) as count FROM users');
     console.log(`✅ Users table: ${usersCount[0]?.count || 0} records`);
-    
+
     // Test products table
     const productsCount = await executeDbQuery('SELECT COUNT(*) as count FROM products');
     console.log(`✅ Products table: ${productsCount[0]?.count || 0} records`);
-    
+
     // Test orders table
     const ordersCount = await executeDbQuery('SELECT COUNT(*) as count FROM orders');
     console.log(`✅ Orders table: ${ordersCount[0]?.count || 0} records`);
-    
+
     // Test a sample query with joins
     const sampleData = await executeDbQuery(`
       SELECT u.first_name, u.last_name, u.email, u.city 
       FROM users u 
       LIMIT 3
     `);
-    
+
     if (sampleData.length > 0) {
       console.log('\n📄 Sample user data:');
       sampleData.forEach((user, index) => {
         console.log(`   ${index + 1}. ${user.first_name} ${user.last_name} (${user.email}) - ${user.city || 'No city'}`);
       });
     }
-    
+
   } catch (queryError) {
     console.log(`⚠️  Query test failed: ${queryError.message}`);
     console.log('   This might be normal if tables are empty or don\'t exist yet.');
@@ -111,7 +114,7 @@ try {
   console.log('   - "Count total products by category"');
   console.log('   - "Find orders with status pending"');
   console.log('   - "Show users who have placed orders"');
-  
+
 } catch (error) {
   console.error('\n❌ Connection test failed:');
   console.error('Error:', error.message);
@@ -126,7 +129,7 @@ try {
   console.error('4. Check if the required tables (users, products, orders) exist');
   console.error('5. Ensure your IP is allowed in Supabase network restrictions');
   console.error('6. Verify RLS (Row Level Security) policies allow access');
-  
+
   process.exit(1);
 }
 

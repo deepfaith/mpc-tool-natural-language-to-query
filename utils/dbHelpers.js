@@ -70,57 +70,6 @@ export const initializeDatabase = async (config) => {
   }
 };
 
-/**
- * Initialize direct PostgreSQL connection as fallback
- */
-const initializeDirectConnection = async (config) => {
-  console.log(`[DB Helper] Initializing direct PostgreSQL connection as fallback...`);
-
-  const connectionConfig = {
-    client: 'pg',
-    connection: {
-      host: process.env.SUPABASE_HOST || config.dataSources?.supabase?.connection?.host,
-      user: 'postgres',
-      password: process.env.SUPABASE_PASSWORD || config.dataSources?.supabase?.connection?.password,
-      database: 'postgres',
-      port: 5432,
-      ssl: { rejectUnauthorized: false }
-    }
-  };
-
-  if (connectionConfig.connection.host && connectionConfig.connection.password) {
-    try {
-      dbInstance = knex(connectionConfig);
-      await dbInstance.raw('SELECT 1+1 AS result');
-      console.log(`[DB Helper] ✅ Direct PostgreSQL connection available as fallback`);
-    } catch (error) {
-      console.warn(`[DB Helper] ⚠️ Direct PostgreSQL connection failed (continuing with Supabase client only):`, error.message);
-      dbInstance = null;
-    }
-  } else {
-    console.log(`[DB Helper] ℹ️ Direct PostgreSQL credentials not provided, using Supabase client only`);
-  }
-};
-
-/**
- * Validate that expected tables exist in the database
- */
-const validateSchema = async () => {
-  const expectedTables = ['users', 'products', 'orders'];
-
-  for (const tableName of expectedTables) {
-    try {
-      const exists = await dbInstance.schema.hasTable(tableName);
-      if (!exists) {
-        console.warn(`[DB Helper] ⚠️ Table '${tableName}' not found in database`);
-      } else {
-        console.log(`[DB Helper] ✅ Table '${tableName}' found`);
-      }
-    } catch (error) {
-      console.warn(`[DB Helper] ⚠️ Could not check table '${tableName}':`, error.message);
-    }
-  }
-};
 
 /**
  * Fetch schema dynamically for the Supabase database.

@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import { config as loadEnv } from 'dotenv';
+loadEnv();
+
 /**
  * Cleans a string that might contain markdown code blocks (e.g., ```json ... ```).
  * Extracts and returns the inside content. If no code block, tries to extract the first valid JSON object.

@@ -7,14 +7,16 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { 
-  initializeDatabase, 
-  isDatabaseInitialized, 
+import {
+  initializeDatabase,
+  isDatabaseInitialized,
   getDatabaseStatus,
   getDbSchema,
   executeDbQuery,
   getActiveDbType
 } from './utils/dbHelpers.js';
+import { config as loadEnv } from 'dotenv';
+loadEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -38,7 +40,7 @@ async function runTests() {
     console.log('📋 Test 2: Initialize Database');
     console.log('-------------------------------');
     await initializeDatabase(config);
-    
+
     status = getDatabaseStatus();
     console.log('Post-init status:', status);
     console.log('Is initialized:', isDatabaseInitialized());
@@ -52,7 +54,7 @@ async function runTests() {
       const schema = await getDbSchema();
       console.log('✅ Schema retrieved successfully');
       console.log('Tables found:', Object.keys(schema));
-      
+
       // Show details for first table
       const firstTable = Object.keys(schema)[0];
       if (firstTable) {
@@ -71,7 +73,7 @@ async function runTests() {
     // Test 4: Execute simple queries
     console.log('📋 Test 4: Execute Database Queries');
     console.log('------------------------------------');
-    
+
     const testQueries = [
       'SELECT COUNT(*) as count FROM users',
       'SELECT * FROM users LIMIT 3',
@@ -84,7 +86,7 @@ async function runTests() {
         console.log(`\n🔍 Testing query: ${query}`);
         const result = await executeDbQuery(query);
         console.log(`✅ Success! Found ${result.length} records`);
-        
+
         if (result.length > 0) {
           console.log('Sample result:', JSON.stringify(result[0], null, 2));
         }
@@ -96,7 +98,7 @@ async function runTests() {
     // Test 5: Test error handling
     console.log('\n📋 Test 5: Error Handling');
     console.log('--------------------------');
-    
+
     const invalidQueries = [
       'DELETE FROM users', // Should be blocked
       'INSERT INTO users VALUES (1)', // Should be blocked
@@ -132,7 +134,7 @@ async function runTests() {
     console.error('   - SUPABASE_PASSWORD (optional)');
     console.error('2. Verify your Supabase project is running');
     console.error('3. Check your database has the expected tables (users, products, orders)');
-    
+
     process.exit(1);
   }
 }
