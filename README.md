@@ -320,26 +320,6 @@ npm run debug-query      # Debug specific queries
 npm run test-helpers     # Test database helpers
 ```
 
-## 🔄 API Endpoints (HTTP Mode)
-
-When running with `--http` flag:
-
-```bash
-# Health check
-GET http://localhost:3001/health
-
-# Execute natural language query
-POST http://localhost:3001/api/mcp/query
-{
-  "nl_query": "Show all users from New York",
-  "language": "English",
-  "tone": "neutral"
-}
-
-# Get available tools
-GET http://localhost:3001/api/mcp/tools
-```
-
 ## 📁 Project Structure
 
 ```
