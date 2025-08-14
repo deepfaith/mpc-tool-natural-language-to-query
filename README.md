@@ -197,20 +197,6 @@ Alternatively, update `config.json`:
 
 ```json
 {
-  "activeDataSource": "supabase",
-  "dataSources": {
-    "supabase": {
-      "client": "pg",
-      "connection": {
-        "host": "db.your-project-ref.supabase.co",
-        "user": "postgres",
-        "password": "your-database-password",
-        "database": "postgres",
-        "port": 5432,
-        "ssl": { "rejectUnauthorized": false }
-      }
-    }
-  },
   "openaiApiKey": "YOUR_OPENAI_API_KEY",
   "supabaseUrl": "https://your-project-ref.supabase.co",
   "supabaseKey": "your-anon-key"
@@ -357,7 +343,7 @@ GET http://localhost:3001/api/mcp/tools
 ## 📁 Project Structure
 
 ```
-backend/
+src/
 ├── controllers/         # Request handlers
 ├── database/           # SQL setup files
 │   ├── rpc-setup.sql  # RPC functions for complex queries
