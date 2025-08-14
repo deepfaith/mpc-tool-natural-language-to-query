@@ -1,0 +1,42 @@
+{
+  "name": "data-query-mcp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "prod": "nodemon --exec node --no-warnings index.js",
+    "test-db": "node test-db-connection.js",
+    "http": "node index.js --http",
+    "dev-http": "HTTP_MODE=true nodemon index.js",
+    "interactive": "node interactive-test.js",
+    "test-mcp": "node interactive-test.js",
+    "test-live": "node test-mcp-live.js",
+    "test-helpers": "node test-db-helpers.js",
+    "setup-guide": "echo 'See backend/README.md for setup instructions'",
+    "debug-query": "node debug-query.js",
+    "test-simple": "node test-simple-queries.js",
+    "setup-rpc": "node setup-rpc.js",
+    "test-semicolon": "node test-semicolon-fix.js"
+  },
+  "keywords": [],
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "description": "MCP server for data sources with AI query capabilities",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.16.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "knex": "^3.1.0",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.3",
+    "ws": "^8.18.3",
+    "zod": "^3.25.76"
+  }
+}
+
+

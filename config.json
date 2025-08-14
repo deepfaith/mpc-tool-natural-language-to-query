@@ -1,0 +1,5 @@
+{
+    "openaiApiKey": "your-openai-api-key-here",
+    "supabaseUrl": "your-supabase-url-here",
+    "supabaseKey": "your-supabase-key-here"
+}
