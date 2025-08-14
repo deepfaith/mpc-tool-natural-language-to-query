@@ -10,8 +10,7 @@ let supabaseClient = null;
 export const initializeSupabaseClient = (config) => {
   const supabaseUrl = process.env.SUPABASE_URL || config.supabaseUrl;
   const supabaseKey = process.env.SUPABASE_ANON_KEY || config.supabaseKey;
-  console.log('[Supabase Client] Initializing Supabase client...',supabaseUrl);
-  console.log('[Supabase Client] Initializing Supabase client...',supabaseKey);
+
   if (!supabaseUrl || !supabaseKey) {
     throw new Error('Supabase URL and Key are required. Please set SUPABASE_URL and SUPABASE_ANON_KEY environment variables or update config.json');
   }
